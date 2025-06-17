@@ -1,9 +1,11 @@
-package com.devmatch.backend;
+package com.devmatch.backend.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.devmatch.backend")
 public class BackendApplication {
 
 	public static void main(String[] args) {

@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+# IntelliJ
+.idea/
+*.iml
+
+# Build
+/build/
+out/
+
+# OS
+.DS_Store
