@@ -1,4 +1,4 @@
-package com.synapse.backend;
+package com.orbitRise.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

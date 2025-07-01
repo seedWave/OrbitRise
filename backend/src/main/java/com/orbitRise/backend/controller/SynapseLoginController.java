@@ -1,4 +1,4 @@
-package com.synapse.backend.controller;
+package com.orbitRise.backend.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

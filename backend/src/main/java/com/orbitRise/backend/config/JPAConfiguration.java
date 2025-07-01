@@ -1,4 +1,4 @@
-package com.synapse.backend.config;
+package com.orbitRise.backend.config;
 
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
