@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
@@ -37,17 +39,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(//HTTP 요청에 대해 어떤 "인가(authorization)" 정책을 적용할지 설정
                         authorizeRequests ->
                                 authorizeRequests
-                        .requestMatchers("/synapse/login", "/error").permitAll()
-                        .anyRequest().authenticated()//위에 지정한 것들을 제외한 나머지 모든 요청은 로그인한 사용자만 접근 가능
+                                        .requestMatchers("/orbitRise/login", "/error").permitAll()
+                                        .requestMatchers("/api/**").permitAll()
+                                        .requestMatchers("/usr/**").permitAll()
+                                        .anyRequest().authenticated()//위에 지정한 것들을 제외한 나머지 모든 요청은 로그인한 사용자만 접근 가능
                 )
                 .formLogin(form -> form
-                        .loginPage("/synapse/login") // 커스텀 로그인 경로
-                        .defaultSuccessUrl("/synapse/user/dashboard", true) // 로그인 성공 후 무조건 이동
+                        .loginPage("/orbitRise/login") // 커스텀 로그인 경로
+                        .defaultSuccessUrl("/orbitRise/user/dashboard", true) // 로그인 성공 후 무조건 이동
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/synapse/login?logout")
+                        .logoutSuccessUrl("/orbitRise/login?logout")
                         .permitAll()
                 );
 
@@ -65,14 +69,19 @@ public class SecurityConfig {
 //                ,"https://knock-six.vercel.app"                            // 프론트 vercel 배포 환경
 //                ,"https://knock-f24a348e0f1e.herokuapp.com/"                 // 백엔드 heroku 배포 환경
         ));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));       // 허용할 HTTP 메서드
-        configuration.setAllowedHeaders(List.of("Content-Type", "Authorization"));      // 허용할 요청 헤더
-        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie"));        // 클라이언트에서 접근 가능한 응답 헤더
-        configuration.setAllowCredentials(true); // 쿠키와 인증정보 포함 허용
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));       // 허용할 HTTP 메서드
+//        configuration.setAllowedHeaders(List.of("Content-Type", "Authorization"));      // 허용할 요청 헤더
+//        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie"));        // 클라이언트에서 접근 가능한 응답 헤더
+//        configuration.setAllowCredentials(true); // 쿠키와 인증정보 포함 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }
